@@ -14,6 +14,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {fetchProducts, resetProducts} from '../redux/productSlice';
 import {getUser, removeUser} from '../utils/storage';
 import {useNavigation} from '@react-navigation/native';
+import BottomNavigation from '../components/BottomNavigation';
 
 const categories = [
   {key: 'Hotels', icon: 'bed-outline'},
@@ -42,111 +43,98 @@ export default function HomeScreen() {
     }
   };
 
-  const handleLogout = () => {
-    removeUser();
-    navigation.reset({index: 0, routes: [{name: 'SignIn'}]});
-  };
-
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={{paddingBottom: 32}}>
-      {/* Header */}
-      <View style={styles.headerBox}>
-        <View
-          style={{
-            alignItems: 'center',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '100%',
-            marginBottom: 40,
-            marginTop: 30,
-          }}>
-          <Text style={styles.headerText}>Welcome</Text>
-          <Image
-            source={{
-              uri:
-                user?.avatar ||
-                'https://randomuser.me/api/portraits/men/32.jpg',
-            }}
-            style={styles.avatar}
-          />
+    <>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={{paddingBottom: 32}}>
+        {/* Header */}
+        <View style={styles.headerBox}>
+          <View
+            style={{
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              width: '100%',
+              marginBottom: 40,
+              marginTop: 30,
+            }}>
+            <Text style={styles.headerText}>Welcome</Text>
+            <Image
+              source={{
+                uri:
+                  user?.avatar ||
+                  'https://randomuser.me/api/portraits/men/32.jpg',
+              }}
+              style={styles.avatar}
+            />
+          </View>
+          <View style={styles.searchBox}>
+            <Icon
+              name="search-outline"
+              size={20}
+              color="#3D3D3D"
+              style={{marginRight: 8}}
+            />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Where to go?"
+              placeholderTextColor="#555"
+            />
+          </View>
         </View>
-        <View style={styles.searchBox}>
-          <Icon
-            name="search-outline"
-            size={20}
-            color="#3D3D3D"
-            style={{marginRight: 8}}
-          />
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Where to go?"
-            placeholderTextColor="#555"
-          />
+        <View style={styles.chipBox}>
+          {categories.map(item => (
+            <View key={item.key} style={styles.chip}>
+              <View style={styles.chipIconBox}>
+                <Icon name={item.icon} size={22} color="#000000" />
+              </View>
+              <Text style={styles.chipLabel}>{item.key}</Text>
+            </View>
+          ))}
         </View>
-      </View>
-      <View style={styles.chipBox}>
-        {categories.map(item => (
-          <View key={item.key} style={styles.chip}>
-            <View style={styles.chipIconBox}>
-              <Icon name={item.icon} size={22} color="#000000" />
+        {/* Explore */}
+        <Text style={styles.sectionHeader}>Explore</Text>
+        <FlatList
+          data={products}
+          horizontal
+          keyExtractor={item => item.id.toString()}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{gap: 12, paddingLeft: 16}}
+          onEndReached={loadMore}
+          onEndReachedThreshold={0.3}
+          ListFooterComponent={
+            loading ? <Text style={{margin: 10}}>Loading...</Text> : null
+          }
+          renderItem={({item}) => (
+            <View style={styles.exploreCard}>
+              <Image
+                source={{uri: item.images?.[0]}}
+                style={styles.exploreImg}
+              />
+              <Text style={styles.exploreTitle}>{item.title}</Text>
+              <Text style={styles.explorePrice}>${item.price}</Text>
             </View>
-            <Text style={styles.chipLabel}>{item.key}</Text>
-          </View>
-        ))}
-      </View>
-      {/* Explore */}
-      <Text style={styles.sectionHeader}>Explore</Text>
-      <FlatList
-        data={products}
-        horizontal
-        keyExtractor={item => item.id.toString()}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{gap: 12, paddingLeft: 16}}
-        onEndReached={loadMore}
-        onEndReachedThreshold={0.3}
-        ListFooterComponent={
-          loading ? <Text style={{margin: 10}}>Loading...</Text> : null
-        }
-        renderItem={({item}) => (
-          <View style={styles.exploreCard}>
-            <Image source={{uri: item.images?.[0]}} style={styles.exploreImg} />
-            <Text style={styles.exploreTitle}>{item.title}</Text>
-            <Text style={styles.explorePrice}>${item.price}</Text>
-          </View>
-        )}
-      />
-      <Text style={styles.sectionHeader}>Recommendation for you</Text>
-      <FlatList
-        data={products}
-        keyExtractor={item => item.id.toString()}
-        scrollEnabled={false}
-        renderItem={({item}) => (
-          <View style={styles.recCard}>
-            <Image source={{uri: item.images?.[0]}} style={styles.recImg} />
-            <View style={{flex: 1, marginLeft: 12}}>
-              <Text style={styles.recTitle}>{item.title}</Text>
-              <Text style={styles.recDetails}>${item.price}</Text>
+          )}
+        />
+        <Text style={styles.sectionHeader}>Recommendation for you</Text>
+        <FlatList
+          data={products}
+          keyExtractor={item => item.id.toString()}
+          scrollEnabled={false}
+          renderItem={({item}) => (
+            <View style={styles.recCard}>
+              <Image source={{uri: item.images?.[0]}} style={styles.recImg} />
+              <View style={{flex: 1, marginLeft: 12}}>
+                <Text style={styles.recTitle}>{item.title}</Text>
+                <Text style={styles.recDetails}>${item.price}</Text>
+              </View>
             </View>
-          </View>
-        )}
-      />
-      <Text style={styles.sectionHeader}>Your Info</Text>
-      <View style={styles.userCard}>
-        <Text style={styles.userLabel}>Full Name:</Text>
-        <Text style={styles.userValue}>{user?.fullName}</Text>
-        <Text style={styles.userLabel}>Email:</Text>
-        <Text style={styles.userValue}>{user?.email}</Text>
-      </View>
-      {/* Logout */}
-      <TouchableOpacity style={styles.button} onPress={handleLogout}>
-        <Text style={styles.buttonText}>Logout</Text>
-      </TouchableOpacity>
-      {error ? (
-        <Text style={{color: 'red', textAlign: 'center'}}>{error}</Text>
-      ) : null}
-    </ScrollView>
+          )}
+        />
+      </ScrollView>
+      <BottomNavigation />
+    </>
   );
 }
 
@@ -202,7 +190,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: -40, // moves up towards the header, tweak for effect
+    marginTop: -40,
     marginBottom: 20,
   },
 
@@ -218,7 +206,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 6,
-    // Shadow
     shadowColor: '#000',
     shadowOpacity: 0.06,
     shadowOffset: {width: 0, height: 1},
