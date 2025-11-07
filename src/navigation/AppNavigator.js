@@ -1,7 +1,7 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useSelector} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
-import SignUpSCreen from '../screens/SignUpScreen';
+import SignUpScreen from '../screens/SignUpScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,7 +23,7 @@ export default function AppNavigator() {
         )}
             </Stack.Navigator> */}
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="SignUp" component={SignUpSCreen} />
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
