@@ -9,7 +9,8 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
-import {signIn} from '../redux/userSlice';
+import {clearError, signIn} from '../redux/userSlice';
+import {useFocusEffect} from '@react-navigation/native';
 
 export default function SignInScreen({navigation}) {
   const [email, setEmail] = useState('');
@@ -28,6 +29,13 @@ export default function SignInScreen({navigation}) {
     dispatch(signIn({email, password}));
     console.log('Sign In Dispatched');
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setLocalError('');
+      dispatch(clearError());
+    }, [dispatch]),
+  );
 
   useEffect(() => {
     if (isAuthenticated) {

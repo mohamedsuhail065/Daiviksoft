@@ -1,7 +1,7 @@
 import Icon from 'react-native-vector-icons/Ionicons';
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {signUp} from '../redux/userSlice';
+import {clearError, signUp} from '../redux/userSlice';
 import {
   Pressable,
   StyleSheet,
@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
 
 export default function SignUpScreen({navigation}) {
   const [firstName, setFirstName] = useState('');
@@ -22,6 +23,13 @@ export default function SignUpScreen({navigation}) {
   const [localError, setLocalError] = useState('');
   const dispatch = useDispatch();
   const {error} = useSelector(state => state.user);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setLocalError('');
+      dispatch(clearError());
+    }, [dispatch]),
+  );
 
   const handleSignUp = () => {
     if (!firstName || !lastName || !email || !password || !confirmPassword) {
@@ -38,7 +46,7 @@ export default function SignUpScreen({navigation}) {
     }
     dispatch(
       signUp({fullName: `${firstName} ${lastName}`.trim(), email, password}),
-      console.log('Dispatched')
+      navigation.navigate('SignIn'),
     );
   };
   return (

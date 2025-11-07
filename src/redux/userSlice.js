@@ -14,12 +14,13 @@ const userSlice = createSlice({
     signUp: (state, action) => {
       saveUser(action.payload);
       state.user = action.payload;
+      state.isAuthenticated = false;
       state.error = null;
     },
     signIn: (state, action) => {
       const savedUser = getUser();
       if (
-        saveUser &&
+        savedUser &&
         savedUser.email === action.payload.email &&
         savedUser.password === action.payload.password
       ) {
@@ -28,6 +29,7 @@ const userSlice = createSlice({
         state.error = null;
       } else {
         state.error = 'Invalid email or password';
+        state.isAuthenticated = false;
       }
     },
     signOut: state => {
@@ -39,8 +41,12 @@ const userSlice = createSlice({
     clearError: state => {
       state.error = null;
     },
+    setAuthenticated: (state, action) => {
+      state.isAuthenticated = action.payload;
+    },
   },
 });
 
-export const {signUp, signIn, signOut, clearError} = userSlice.actions;
+export const {signUp, signIn, signOut, clearError, setAuthenticated} =
+  userSlice.actions;
 export default userSlice.reducer;

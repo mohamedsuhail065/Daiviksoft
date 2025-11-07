@@ -11,6 +11,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {getUser, removeUser} from '../utils/storage';
 import {useNavigation} from '@react-navigation/native';
 import BottomNavigation from '../components/BottomNavigation';
+import {useDispatch} from 'react-redux';
+import {signOut} from '../redux/userSlice';
 
 const settings = [
   {icon: 'card-outline', label: 'Your Card'},
@@ -20,13 +22,12 @@ const settings = [
   {icon: 'help-circle-outline', label: 'Help and Support'},
 ];
 
-export default function ProfileScreen() {
+export default function ProfileScreen({navigation}) {
   const user = getUser();
-  const navigation = useNavigation();
-
+  const dispatch = useDispatch();
   const logout = () => {
     removeUser();
-    navigation.reset({index: 0, routes: [{name: 'SignIn'}]});
+    dispatch(signOut());
   };
 
   return (
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingHorizontal: 18,
-      paddingBottom: 170,
+    paddingBottom: 170,
   },
 
   topBox: {
