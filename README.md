@@ -66,6 +66,3 @@ Email: mohamedsuhail065@gmail.com
 
 ---
 
-
-## Folder Structure
-
