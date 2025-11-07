@@ -14,7 +14,6 @@ const userSlice = createSlice({
     signUp: (state, action) => {
       saveUser(action.payload);
       state.user = action.payload;
-      state.isAuthenticated = true;
       state.error = null;
     },
     signIn: (state, action) => {

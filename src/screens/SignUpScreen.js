@@ -38,6 +38,7 @@ export default function SignUpScreen({navigation}) {
     }
     dispatch(
       signUp({fullName: `${firstName} ${lastName}`.trim(), email, password}),
+      console.log('Dispatched')
     );
   };
   return (
