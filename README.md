@@ -1,97 +1,71 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# React Native Booking App Assessment
 
-# Getting Started
+A React Native mobile app built as part of the Daiviksoft selection process. The app demonstrates authentication flow, product listing with API, session management, navigation, and design matching a provided Figma spec.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Features
 
-## Step 1: Start Metro
+- **SignUp & SignIn** screens using local MMKV storage for user/session data.
+- **Authentication guard:** Only signed-in users can access Home/Profile.
+- **Home Screen:** 
+  - Product list with images, price, and pagination via [Platzi Fake API](https://api.escuelajs.co/api/v1/products).
+  - "Recommendations for you" and personal info display.
+- **Profile Screen:** User info, settings/options list, Logout button (clears MMKV and session).
+- **State management:** Redux Toolkit for user/product data.
+- **Local storage:** react-native-mmkv (fast, secure, persistent).
+- **Navigation:** Stack navigator with custom Bottom Tab navigation bar.
+- **Error handling:** Graceful feedback for invalid login, empty fields, and failed API calls.
+- **Styled UI:** Matches Figma design using native React Native styles only (*see design link below*).
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## Tech Stack
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+- React Native
+- @reduxjs/toolkit
+- react-native-mmkv
+- @react-navigation/native, @react-navigation/native-stack
+- axios
 
-```sh
-# Using npm
-npm start
+## Figma Design
 
-# OR using Yarn
-yarn start
-```
+[https://www.figma.com/design/Inex28pCw6AXzKMNxvONeB/Untitled?node-id=1-83&t=T1fjIkFRg30dING6-0](https://www.figma.com/design/Inex28pCw6AXzKMNxvONeB/Untitled?node-id=1-83&t=T1fjIkFRg30dING6-0)
 
-## Step 2: Build and run your app
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+## Setup Instructions
 
-### Android
+1. **Clone repo**  
+   `git clone <your-repo-link>`
+2. **Install dependencies**  
+   `npm install`
+3. **Run app (Android example):**  
+   `npx react-native run-android`
+4. **Run app (iOS example):**  
+   `npx react-native run-ios`
+5. Make sure to set up your emulator/device accordingly.
 
-```sh
-# Using npm
-npm run android
+## Usage
 
-# OR using Yarn
-yarn android
-```
+- **Sign up as a new user.**
+- **Sign in with your credentials.**
+- **Browse and paginate products on Home.**
+- **View and update profile.**
+- **Logout to clear session (returns to SignIn screen).**
+- Every major navigation tab and screen is available from the custom bottom navigation bar.
 
-### iOS
+## Commit History
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+- All commits include meaningful messages showing progress and feature milestones.
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+## Notes
 
-```sh
-bundle install
-```
+- All logic, UI, API, and session handling are written using recommended React Native best practices.
+- MMKV is used for local data only—no sensitive data sent outside the app.
 
-Then, and every time you update your native dependencies, run:
+## Author
 
-```sh
-bundle exec pod install
-```
+Mohamed Suhail  
+Email: mohamedsuhail065@gmail.com
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+---
 
-```sh
-# Using npm
-npm run ios
 
-# OR using Yarn
-yarn ios
-```
+## Folder Structure
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
