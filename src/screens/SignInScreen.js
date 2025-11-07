@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -17,7 +17,7 @@ export default function SignInScreen({navigation}) {
   const [showPassword, setShowPassword] = useState(false);
   const [localError, setLocalError] = useState('');
   const dispatch = useDispatch();
-  const {error} = useSelector(state => state.user);
+  const {error, isAuthenticated} = useSelector(state => state.user);
 
   const handleSignIn = () => {
     setLocalError('');
@@ -28,6 +28,15 @@ export default function SignInScreen({navigation}) {
     dispatch(signIn({email, password}));
     console.log('Sign In Dispatched');
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Home'}],
+      });
+    }
+  }, [isAuthenticated, navigation]);
 
   return (
     <View style={styles.container}>
